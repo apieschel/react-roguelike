@@ -9,17 +9,15 @@ class App extends Component {
       userHealth: 100,
       userLevel: 0,
       userWeapon: "Sword",
-      start: true
+      wall: Math.floor(Math.random()*(1500-1+1)+1),
+      sword: Math.floor(Math.random()*(1500-1+1)+1),
+      treasure: Math.floor(Math.random()*(1500-1+1)+1)
 		}
 		this.constructMap = this.constructMap.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.getTreasure = this.getTreasure.bind(this);
 	}
   
-  componentWillMount() {
-    this.setState({
-      start: false
-    })
-  }
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyPress);
   }
@@ -31,6 +29,9 @@ class App extends Component {
   handleKeyPress(e) {
     if(e.key === "ArrowRight") {
       if((this.state.userPosition + 1) % 50  && document.getElementById(this.state.userPosition + 1).getAttribute("contains") !== "wall") {
+        if(document.getElementById(this.state.userPosition + 1).getAttribute("contains") === "treasure") { 
+          this.getTreasure();
+        }
         this.setState({
           userPosition: this.state.userPosition + 1
         });
@@ -61,17 +62,26 @@ class App extends Component {
     console.log(this.state.userPosition);
   }
   
+  getTreasure() {
+    this.setState({
+      treasure: "none",
+      health: 
+    });
+  }
+  
   constructMap() {
     let grid = [];
     let j = this.state.userPosition;
-    let wall;
     
-    if(this.state.start) {Math.floor(Math.random()*(1500-1+1)+1)};
 	  for(let i = 0; i < 1500; i++) {
       if(i === j) {
         grid.push(<div className="user" key={i} contains="user" id={i}>(:</div>);
-      } else if(i === wall) {
-        grid.push(<div className="wall" key={i} contains="wall" id={i}>(:</div>);
+      } else if(i === this.state.wall) {
+        grid.push(<div className="wall" key={i} contains="wall" id={i}></div>);
+      } else if(i === this.state.sword) {
+        grid.push(<div className="gridItem" key={i} contains="sword" id={i}>>=</div>);
+      } else if(i === this.state.treasure) {
+        grid.push(<div className="gridItem" key={i} contains="treasure" id={i}>$</div>);
       } else {
         grid.push(<div className="gridItem" key={i} contains="floor" id={i}></div>);
       }
