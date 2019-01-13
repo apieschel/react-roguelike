@@ -8,12 +8,18 @@ class App extends Component {
       userPosition: 67,
       userHealth: 100,
       userLevel: 0,
-      userWeapon: "Sword"
+      userWeapon: "Sword",
+      start: true
 		}
 		this.constructMap = this.constructMap.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
 	}
   
+  componentWillMount() {
+    this.setState({
+      start: false
+    })
+  }
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyPress);
   }
@@ -58,7 +64,9 @@ class App extends Component {
   constructMap() {
     let grid = [];
     let j = this.state.userPosition;
-    let wall = 66;
+    let wall;
+    
+    if(this.state.start) {Math.floor(Math.random()*(1500-1+1)+1)};
 	  for(let i = 0; i < 1500; i++) {
       if(i === j) {
         grid.push(<div className="user" key={i} contains="user" id={i}>(:</div>);
