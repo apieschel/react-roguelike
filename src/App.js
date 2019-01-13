@@ -24,7 +24,7 @@ class App extends Component {
 	
   handleKeyPress(e) {
     if(e.key === "ArrowRight") {
-      if((this.state.userPosition + 1) % 50) {
+      if((this.state.userPosition + 1) % 50  && document.getElementById(this.state.userPosition + 1).getAttribute("contains") !== "wall") {
         this.setState({
           userPosition: this.state.userPosition + 1
         });
@@ -39,13 +39,13 @@ class App extends Component {
       }
     }
     if(e.key === "ArrowUp") {
-      if(this.state.userPosition > 49) {
+      if(this.state.userPosition > 49 && document.getElementById(this.state.userPosition - 50).getAttribute("contains") !== "wall") {
         this.setState({
           userPosition: this.state.userPosition - 50
         });
       }
     }
-    if(e.key === "ArrowDown") {
+    if(e.key === "ArrowDown" && document.getElementById(this.state.userPosition + 50).getAttribute("contains") !== "wall") {
       if(this.state.userPosition < 1450) {
         this.setState({
           userPosition: this.state.userPosition + 50
@@ -68,7 +68,7 @@ class App extends Component {
         grid.push(<div className="gridItem" key={i} contains="floor" id={i}></div>);
       }
     }
-    console.log(grid);
+    //console.log(grid);
     return grid;
   }
   
