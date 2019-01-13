@@ -20,6 +20,12 @@
   background: purple;
 }
 
+.wall {
+  height: 20px;
+  width: 20px;
+  background: black;
+}
+
 .user {
   height: 20px;
   width: 20px;

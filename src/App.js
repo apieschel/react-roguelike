@@ -31,7 +31,8 @@ class App extends Component {
       }
     }
     if(e.key === "ArrowLeft") {
-      if(this.state.userPosition % 50) {
+      console.log(document.getElementById(this.state.userPosition - 1).getAttribute("contains"));
+      if(this.state.userPosition % 50 && document.getElementById(this.state.userPosition - 1).getAttribute("contains") !== "wall") {
         this.setState({
           userPosition: this.state.userPosition - 1
         });
@@ -57,11 +58,14 @@ class App extends Component {
   constructMap() {
     let grid = [];
     let j = this.state.userPosition;
+    let wall = 66;
 	  for(let i = 0; i < 1500; i++) {
       if(i === j) {
-        grid.push(<div className="user" key={i}>(:</div>);
+        grid.push(<div className="user" key={i} contains="user" id={i}>(:</div>);
+      } else if(i === wall) {
+        grid.push(<div className="wall" key={i} contains="wall" id={i}>(:</div>);
       } else {
-        grid.push(<div className="gridItem" key={i} ></div>);
+        grid.push(<div className="gridItem" key={i} contains="floor" id={i}></div>);
       }
     }
     console.log(grid);
