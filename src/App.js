@@ -61,9 +61,10 @@ class App extends Component {
       if(i === j) {
         grid.push(<div className="user" key={i}>(:</div>);
       } else {
-        grid.push(<div className="gridItem" key={i}></div>);
+        grid.push(<div className="gridItem" key={i} ></div>);
       }
     }
+    console.log(grid);
     return grid;
   }
   
