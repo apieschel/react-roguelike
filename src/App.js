@@ -21,26 +21,30 @@ class App extends Component {
 	
   handleKeyPress(e) {
     if(e.key === "ArrowRight") {
-      this.setState({
-			  userPosition: this.state.userPosition + 1
-			});
+      if((this.state.userPosition + 1) % 50) {
+        this.setState({
+          userPosition: this.state.userPosition + 1
+        });
+      }
     }
     if(e.key === "ArrowLeft") {
-      this.setState({
-			  userPosition: this.state.userPosition - 1
-			});
+      if(this.state.userPosition % 50) {
+        this.setState({
+          userPosition: this.state.userPosition - 1
+        });
+      }
     }
     if(e.key === "ArrowUp") {
-      if(this.state.userPosition > 19) {
+      if(this.state.userPosition > 49) {
         this.setState({
-          userPosition: this.state.userPosition - 20
+          userPosition: this.state.userPosition - 50
         });
       }
     }
     if(e.key === "ArrowDown") {
-      if(this.state.userPosition < 220) {
+      if(this.state.userPosition < 1450) {
         this.setState({
-          userPosition: this.state.userPosition + 20
+          userPosition: this.state.userPosition + 50
         });
       }
     }
@@ -50,7 +54,7 @@ class App extends Component {
   constructMap() {
     let grid = [];
     let j = this.state.userPosition;
-	  for(let i = 0; i < 250; i++) {
+	  for(let i = 0; i < 1500; i++) {
       if(i === j) {
         grid.push(<div className="user" key={i}></div>);
       } else {
