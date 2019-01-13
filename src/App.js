@@ -8,6 +8,7 @@ class App extends Component {
       userPosition: 67
 		}
 		this.constructMap = this.constructMap.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
 	}
   
   componentDidMount() {
@@ -19,8 +20,31 @@ class App extends Component {
   }
 	
   handleKeyPress(e) {
-    console.log(e.key);
-    if(e.key === "ArrowRight")
+    if(e.key === "ArrowRight") {
+      this.setState({
+			  userPosition: this.state.userPosition + 1
+			});
+    }
+    if(e.key === "ArrowLeft") {
+      this.setState({
+			  userPosition: this.state.userPosition - 1
+			});
+    }
+    if(e.key === "ArrowUp") {
+      if(this.state.userPosition > 19) {
+        this.setState({
+          userPosition: this.state.userPosition - 20
+        });
+      }
+    }
+    if(e.key === "ArrowDown") {
+      if(this.state.userPosition < 220) {
+        this.setState({
+          userPosition: this.state.userPosition + 20
+        });
+      }
+    }
+    console.log(this.state.userPosition);
   }
   
   constructMap() {
