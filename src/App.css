@@ -1,4 +1,4 @@
-.App {
+.container {
     display: flex;
     justify-content: center;
     padding-top: 100px;
@@ -24,4 +24,5 @@
   height: 20px;
   width: 20px;
   background: yellow;
+  text-align: center;
 }
