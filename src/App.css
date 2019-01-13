@@ -13,3 +13,9 @@
     overflow: hidden;
     border: 1px solid black;
 }
+
+.grid {
+  height: 50px;
+  width: 50px;
+  background: purple;
+}
