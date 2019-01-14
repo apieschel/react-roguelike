@@ -17,6 +17,7 @@ class App extends Component {
 		this.state = {
       userPosition: uniques[0],
       userHealth: 100,
+      userExperience: 0,
       userLevel: 0,
       userWeapon: "fist",
       wall: uniques[1],
@@ -185,6 +186,23 @@ class App extends Component {
       }
     }
   }
+  
+  getExperience(event) {
+    if(event === "slime") {
+      this.userExperience = this.state.userExperience + 100
+    }
+    if(event === "boss") {
+      this.userExperience = this.state.userExperience + 1000
+    }
+    if(event === "treasure") {
+      this.userExperience = this.state.userExperience + 50
+    }
+    if(event === "sword") {
+      this.userExperience = this.state.userExperience + 50
+    }
+  }
+  
+  levelUp() {}
   
   constructMap() {
     let grid = [];
