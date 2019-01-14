@@ -12,7 +12,8 @@ class App extends Component {
       wall: Math.floor(Math.random()*(1500-1+1)+1),
       sword: Math.floor(Math.random()*(1500-1+1)+1),
       treasure: Math.floor(Math.random()*(1500-1+1)+1),
-      boss: Math.floor(Math.random()*(1500-1+1)+1)
+      boss: Math.floor(Math.random()*(1500-1+1)+1),
+      bossHealth: 10000
 		}
 		this.constructMap = this.constructMap.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -27,7 +28,8 @@ class App extends Component {
     document.removeEventListener('keydown', this.handleKeyPress);
   }
 	
-  handleKeyPress(e) {
+  handleKeyPress(e) { 
+    
     if(e.key === "ArrowRight") {
       let rightTile = document.getElementById(this.state.userPosition + 1).getAttribute("contains");
       if((this.state.userPosition + 1) % 50  && rightTile !== "wall") {
@@ -42,6 +44,7 @@ class App extends Component {
         });
       }
     }
+    
     if(e.key === "ArrowLeft") {
       let leftTile = document.getElementById(this.state.userPosition - 1).getAttribute("contains");
       if(this.state.userPosition % 50 && leftTile !== "wall") {
@@ -50,21 +53,26 @@ class App extends Component {
         });
       }
     }
+    
     if(e.key === "ArrowUp") {
-      if(this.state.userPosition > 49 && document.getElementById(this.state.userPosition - 50).getAttribute("contains") !== "wall") {
+      let upTile = document.getElementById(this.state.userPosition - 50).getAttribute("contains");
+      if(this.state.userPosition > 49 && upTile !== "wall") {
         this.setState({
           userPosition: this.state.userPosition - 50
         });
       }
     }
-    if(e.key === "ArrowDown" && document.getElementById(this.state.userPosition + 50).getAttribute("contains") !== "wall") {
-      if(this.state.userPosition < 1450) {
+    
+    if(e.key === "ArrowDown" && document.getElementById(this.state.userPosition + 50).getAttribute("contains") !== "wall") {     
+      let downTile = document.getElementById(this.state.userPosition - 50).getAttribute("contains");
+      if(this.state.userPosition < 1450 && downTile !== "wall") {
         this.setState({
           userPosition: this.state.userPosition + 50
         });
       }
     }
-    console.log(this.state.userPosition);
+    
+    //console.log(this.state.userPosition);
   }
   
   getTreasure() {
@@ -114,9 +122,12 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <p>Health: {this.state.userHealth}</p>
-        <p>Level: {this.state.userLevel}</p>
-        <p>Weapon: {this.state.userWeapon}</p>
+        <div className="stats">
+          <p>Health: {this.state.userHealth}</p>
+          <p>Level: {this.state.userLevel}</p>
+          <p>Weapon: {this.state.userWeapon}</p>
+          <p>Boss Health: {this.state.bossHealth}</p>
+        </div>
       </div>
     );
   }
