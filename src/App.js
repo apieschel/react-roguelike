@@ -7,7 +7,7 @@ class App extends Component {
     let uniques = [];
     let unique;
     let i = 0;
-    while(i < 5) {
+    while(i < 6) {
       unique =  Math.floor(Math.random()*(1440-60+60)+60);
       if(uniques.indexOf(unique) === -1) {
         uniques.push(unique);
@@ -23,7 +23,9 @@ class App extends Component {
       sword: uniques[2],
       treasure: uniques[3],
       boss: uniques[4],
+      slime: uniques[5],
       bossHealth: 100,
+      slimeHealth: 10,
       message: "There is danger afoot."
 		}
 		this.constructMap = this.constructMap.bind(this);
@@ -58,8 +60,8 @@ class App extends Component {
           userPosition: this.state.userPosition + 1
         });
       }
-      if(rightTile === "boss") {
-        this.fight();
+      if(rightTile === "boss" || rightTile === "slime") {
+        this.fight(rightTile);
       }
     }
     
@@ -79,8 +81,8 @@ class App extends Component {
           userPosition: this.state.userPosition - 1
         });
       }
-      if(leftTile === "boss") {
-         this.fight();
+      if(leftTile === "boss" || leftTile === "slime") {
+         this.fight(leftTile);
       }
     }
     
@@ -100,8 +102,8 @@ class App extends Component {
           userPosition: this.state.userPosition - 50
         });
       }
-      if(upTile === "boss") {
-        this.fight();
+      if(upTile === "boss" || upTile === "slime") {
+        this.fight(upTile);
       }
     }
     
@@ -121,8 +123,8 @@ class App extends Component {
           userPosition: this.state.userPosition + 50
         });
       }
-      if(downTile === "boss") {
-         this.fight();
+      if(downTile === "boss" || downTile === "slime") {
+         this.fight(downTile);
       }
     }
     
@@ -147,19 +149,37 @@ class App extends Component {
     });
   }
   
-  fight() {
-    if(this.state.userWeapon === "sword") {
-      if(this.state.bossHealth === 1) {
-        this.setState({
-          boss: "none",
-          message: "They will sing of your exploits for centuries.",
-          bossHealth: this.state.bossHealth - 1
-        });
-      } else {
-        this.setState({
-          bossHealth: this.state.bossHealth - 1,
-          message: "Go for the eyes."
-        });
+  fight(enemy) {
+    if(enemy === "boss") {
+      if(this.state.userWeapon === "sword") {
+        if(this.state.bossHealth === 1) {
+          this.setState({
+            boss: "none",
+            message: "They will sing of your exploits for centuries.",
+            bossHealth: this.state.bossHealth - 1
+          });
+        } else {
+          this.setState({
+            bossHealth: this.state.bossHealth - 1,
+            message: "Go for the eyes.",
+            userHealth: this.state.userHealth - 1
+          });
+        }
+      }
+    } else {
+      if(this.state.userWeapon === "sword") {
+        if(this.state.slimeHealth === 1) {
+          this.setState({
+            slime: "none",
+            message: "You slaughtered a disgusting slime. You feel more confident in your abilities.",
+            bossHealth: this.state.slimeHealth - 1
+          });
+        } else {
+          this.setState({
+            slimeHealth: this.state.bossHealth - 1,
+            message: "Go for the tentacles."
+          });
+        }
       }
     }
   }
@@ -179,6 +199,8 @@ class App extends Component {
         grid.push(<div className="gridItem" key={i} contains="treasure" id={i}>$</div>);
       } else if(i === this.state.boss) {
         grid.push(<div className="boss" key={i} contains="boss" id={i}>B</div>);
+      } else if(i === this.state.slime) {
+        grid.push(<div className="slime" key={i} contains="slime" id={i}>s</div>);
       } else {
         grid.push(<div className="gridItem" key={i} contains="floor" id={i}></div>);
       }
