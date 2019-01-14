@@ -26,7 +26,9 @@ class App extends Component {
       treasure: uniques[3],
       boss: uniques[4],
       slime: uniques[5],
+      bossLevel: 10,
       bossHealth: 100,
+      slimeLevel: 1,
       slimeHealth: 10,
       message: "There is danger afoot."
 		}
@@ -161,31 +163,28 @@ class App extends Component {
   }
   
   fight(enemy) {
+    
     if(enemy === "boss") {
-      if(this.state.userWeapon === "sword") {
-        if(this.state.bossHealth === 1) {
-          this.setState({
-            boss: "none",
-            message: "They will sing of your exploits for centuries.",
-            bossHealth: this.state.bossHealth - 1
-          });
-          this.getExperience("boss");
-        } else {
-          this.setState({
-            bossHealth: this.state.bossHealth - 1,
-            message: "Go for the eyes.",
-            userHealth: this.state.userHealth - 1
-          });
-        }
+      if(this.state.bossHealth === 1) {
+        this.setState({
+          boss: "none",
+          message: "They will sing of your exploits for centuries.",
+          bossHealth: this.state.bossHealth - (Math.floor(Math.random() * 6) + 1)
+        });
+        this.getExperience("boss");
+      } else {
+        this.setState({
+          bossHealth: this.state.bossHealth - 1,
+          message: "Go for the eyes.",
+          userHealth: this.state.userHealth - 1
+        });
       }
     } else {
-      if(this.state.userWeapon === "sword") {
         if(this.state.slimeHealth === 1) {
           this.setState({
-            slime: "none",
-            message: "You slaughtered a disgusting slime. You feel more confident in your abilities.",
             slimeHealth: this.state.slimeHealth - 1,
-            userLevel: this.state.userLevel + 1
+            slime: "none",
+            message: "You slaughtered a disgusting slime. You feel more confident in your abilities."
           });
           this.getExperience("slime");
         } else {
@@ -195,7 +194,6 @@ class App extends Component {
             userHealth: this.state.userHealth - 1
           });
         }
-      }
     }
   }
   
@@ -228,7 +226,8 @@ class App extends Component {
   levelUp() {
     this.setState({
       userLevel: this.state.userExperience / 50,
-      userHealth: (this.state.userLevel + 1) * 100,
+      userHealth: (this.state.userExperience / 50) * 100,
+      experienceToLevelUp: (this.state.userExperience / 50) * 50
     });
   }
   
@@ -270,7 +269,6 @@ class App extends Component {
         <div className="stats">
           <p>Health: {this.state.userHealth}</p>
           <p>Level: {this.state.userLevel}</p>
-          <p>Experience: {this.state.userExperience}</p>
           <p>Experience to Next Level: {this.state.experienceToLevelUp}</p>
           <p>Weapon: {this.state.userWeapon}</p>
           <p>Boss Health: {this.state.bossHealth}</p>
