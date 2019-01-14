@@ -32,6 +32,7 @@ class App extends Component {
       slimeLevel: 3,
       slimeHealth: 20,
       inventory: ["torch"],
+      active: 0,
       message: "There is danger afoot."
 		}
 		this.constructMap = this.constructMap.bind(this);
@@ -242,6 +243,14 @@ class App extends Component {
 	  for(let i = 0; i < 1500; i++) {
       if(i === j) {
         grid.push(<div className="user" key={i} contains="user" id={i}>(:</div>);
+      } else if(i === j - 1) {
+        grid.push(<div className="light" key={i} contains="floor" id={i}>(:</div>);
+      } else if(i === j + 1) {
+        grid.push(<div className="light" key={i} contains="floor" id={i}>(:</div>);
+      } else if(i === j - 50) {
+        grid.push(<div className="light" key={i} contains="floor" id={i}>(:</div>);
+      } else if(i === j + 50) {
+        grid.push(<div className="light" key={i} contains="floor" id={i}>(:</div>);
       } else if(i === this.state.wall) {
         grid.push(<div className="wall" key={i} contains="wall" id={i}></div>);
       } else if(i === this.state.sword) {
@@ -278,6 +287,7 @@ class App extends Component {
           <p>Weapon: {this.state.userWeapon}</p>
           <p>Boss Health: {this.state.bossHealth}</p>
           <p>Slime Health: {this.state.slimeHealth}</p>
+          <p>You are carrying a {this.state.inventory[this.state.active]}.</p>
           <p className="message">{this.state.message}</p>
         </div>
       </div>

@@ -67,3 +67,11 @@ p {
 .message {
   color: green;
 }
+
+.torch {
+  color: red;
+}
+
+.light {
+  background: red;
+}
