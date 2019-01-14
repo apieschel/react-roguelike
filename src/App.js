@@ -44,7 +44,7 @@ class App extends Component {
     
     if(e.key === "ArrowRight") {
       let rightTile;
-      if(document.getElementById(this.state.userPosition - 50) !== null) {
+      if(document.getElementById(this.state.userPosition + 1) !== null) {
         rightTile = document.getElementById(this.state.userPosition + 1).getAttribute("contains");
       }
       if((this.state.userPosition + 1) % 50  && rightTile !== "wall" && rightTile !== "boss") {
@@ -132,14 +132,18 @@ class App extends Component {
   getTreasure() {
     this.setState({
       treasure: "none",
-      userHealth: this.state.userHealth + 100 
+      userHealth: this.state.userHealth + 100,
+      userLevel: this.state.userLevel + 1,
+      message: "You picked up a glowing artifact. Your blood pulses with energy."
     });
   }
   
   getWeapon(weapon) {
     this.setState({
       userWeapon: weapon,
-      sword: "none"
+      sword: "none",
+      userLevel: this.state.userLevel + 1,
+      message: "You picked up the ancient sword. There is an image of teeth engraved on its hilt."
     });
   }
   
@@ -148,13 +152,15 @@ class App extends Component {
       if(this.state.bossHealth === 1) {
         this.setState({
           boss: "none",
-          message: "They will sing of your exploits for centuries."
+          message: "They will sing of your exploits for centuries.",
+          bossHealth: this.state.bossHealth - 1
+        });
+      } else {
+        this.setState({
+          bossHealth: this.state.bossHealth - 1,
+          message: "Go for the eyes."
         });
       }
-      this.setState({
-        bossHealth: this.state.bossHealth - 1,
-        message: "Go for the eyes."
-      });
     }
   }
   
@@ -196,7 +202,7 @@ class App extends Component {
           <p>Level: {this.state.userLevel}</p>
           <p>Weapon: {this.state.userWeapon}</p>
           <p>Boss Health: {this.state.bossHealth}</p>
-          <p>{this.state.message}</p>
+          <p className="message">{this.state.message}</p>
         </div>
       </div>
     );
