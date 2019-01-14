@@ -54,10 +54,11 @@ class App extends Component {
       if((this.state.userPosition + 1) % 50  && rightTile !== "wall" && rightTile !== "boss" && rightTile !== "slime") {
         if(rightTile === "treasure") { 
           this.getTreasure();
+          this.getExperience(rightTile);
         }
         if(rightTile === "sword") { 
           this.getWeapon(rightTile);
-          
+          this.getExperience(rightTile);
         }
         this.setState({
           userPosition: this.state.userPosition + 1
@@ -265,6 +266,8 @@ class App extends Component {
           <p>Weapon: {this.state.userWeapon}</p>
           <p>Boss Health: {this.state.bossHealth}</p>
           <p>Slime Health: {this.state.slimeHealth}</p>
+          <p>Experience: {this.state.userExperience}</p>
+          <p>Experience to Next Level: {this.state.experienceToLevelUp}</p>
           <p className="message">{this.state.message}</p>
         </div>
       </div>

@@ -1,6 +1,11 @@
 body {
     background: black;
 }
+
+p {
+  margin: 3px 0;
+}
+
 .container {
     display: flex;
     justify-content: center;
