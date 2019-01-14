@@ -4,15 +4,25 @@ import './App.css';
 class App extends Component {
   constructor(props) {
 		super(props);
+    let uniques = [];
+    let unique;
+    let i = 0;
+    while(i < 5) {
+      unique =  Math.floor(Math.random()*(1500-50+1)+1);
+      if(uniques.indexOf(unique) === -1) {
+        uniques.push(unique);
+        i++;
+      }
+    }
 		this.state = {
-      userPosition: Math.floor(Math.random()*(1500-1+1)+1),
+      userPosition: uniques[0],
       userHealth: 100,
       userLevel: 0,
       userWeapon: "fist",
-      wall: Math.floor(Math.random()*(1500-1+1)+1),
-      sword: Math.floor(Math.random()*(1500-1+1)+1),
-      treasure: Math.floor(Math.random()*(1500-1+1)+1),
-      boss: Math.floor(Math.random()*(1500-1+1)+1),
+      wall: uniques[1],
+      sword: uniques[2],
+      treasure: uniques[3],
+      boss: uniques[4],
       bossHealth: 10000
 		}
 		this.constructMap = this.constructMap.bind(this);
@@ -133,7 +143,7 @@ class App extends Component {
   }
   
   fight() {
-    if(this.state.weapon === "sword") {
+    if(this.state.userWeapon === "sword") {
       this.setState({
         bossHealth: this.state.bossHealth - 1
       });
