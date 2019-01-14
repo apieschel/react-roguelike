@@ -16,20 +16,21 @@ class App extends Component {
     }
 		this.state = {
       userPosition: uniques[0],
-      userHealth: 100,
+      userHealth: 10,
       userExperience: 0,
       experienceToLevelUp: 100,
       userLevel: 1,
       userWeapon: "fist",
+      baseDamage: 3,
       wall: uniques[1],
       sword: uniques[2],
       treasure: uniques[3],
       boss: uniques[4],
       slime: uniques[5],
       bossLevel: 10,
-      bossHealth: 100,
-      slimeLevel: 1,
-      slimeHealth: 10,
+      bossHealth: 200,
+      slimeLevel: 3,
+      slimeHealth: 20,
       message: "There is danger afoot."
 		}
 		this.constructMap = this.constructMap.bind(this);
@@ -157,41 +158,40 @@ class App extends Component {
   getWeapon(weapon) {
     this.setState({
       userWeapon: weapon,
+      baseDamage: 6,
       sword: "none",
       message: "You picked up the ancient sword. There is an image of teeth engraved on its hilt."
     });
   }
   
   fight(enemy) {
-    
     if(enemy === "boss") {
-      if(this.state.bossHealth === 1) {
+      if(this.state.bossHealth <= 0) {
         this.setState({
           boss: "none",
-          message: "They will sing of your exploits for centuries.",
-          bossHealth: this.state.bossHealth - (Math.floor(Math.random() * 6) + 1)
+          message: "They will sing of your exploits for centuries."
         });
         this.getExperience("boss");
       } else {
         this.setState({
-          bossHealth: this.state.bossHealth - 1,
+          bossHealth: this.state.bossHealth - (Math.floor(Math.random() * this.state.baseDamage) + 1),
           message: "Go for the eyes.",
-          userHealth: this.state.userHealth - 1
+          userHealth: this.state.userHealth - (Math.floor(Math.random() * this.state.bossLevel) + 1)
         });
       }
     } else {
-        if(this.state.slimeHealth === 1) {
+        if((this.state.slimeHealth - (Math.floor(Math.random() * this.state.baseDamage) + 1)) <= 0) {
           this.setState({
-            slimeHealth: this.state.slimeHealth - 1,
             slime: "none",
-            message: "You slaughtered a disgusting slime. You feel more confident in your abilities."
+            message: "You slaughtered a disgusting slime. You feel more confident in your abilities.",
+            slimeHealth: 0
           });
           this.getExperience("slime");
         } else {
           this.setState({
-            slimeHealth: this.state.slimeHealth - 1,
+            slimeHealth: this.state.slimeHealth - (Math.floor(Math.random() * this.state.baseDamage) + 1),
             message: "Go for the tentacles.",
-            userHealth: this.state.userHealth - 1
+            userHealth: this.state.userHealth - (Math.floor(Math.random() * this.state.slimeLevel) + 1)
           });
         }
     }
