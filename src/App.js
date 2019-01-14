@@ -31,7 +31,10 @@ class App extends Component {
   handleKeyPress(e) { 
     
     if(e.key === "ArrowRight") {
-      let rightTile = document.getElementById(this.state.userPosition + 1).getAttribute("contains");
+      let rightTile;
+      if(document.getElementById(this.state.userPosition - 50) !== null) {
+        rightTile = document.getElementById(this.state.userPosition + 1).getAttribute("contains");
+      }
       if((this.state.userPosition + 1) % 50  && rightTile !== "wall") {
         if(rightTile === "treasure") { 
           this.getTreasure();
@@ -46,8 +49,17 @@ class App extends Component {
     }
     
     if(e.key === "ArrowLeft") {
-      let leftTile = document.getElementById(this.state.userPosition - 1).getAttribute("contains");
+      let leftTile;
+      if(document.getElementById(this.state.userPosition - 50) !== null) {
+        leftTile = document.getElementById(this.state.userPosition - 1).getAttribute("contains");
+      }
       if(this.state.userPosition % 50 && leftTile !== "wall") {
+        if(leftTile === "treasure") { 
+          this.getTreasure();
+        }
+        if(leftTile === "sword") { 
+          this.getWeapon(leftTile);
+        }
         this.setState({
           userPosition: this.state.userPosition - 1
         });
@@ -55,8 +67,17 @@ class App extends Component {
     }
     
     if(e.key === "ArrowUp") {
-      let upTile = document.getElementById(this.state.userPosition - 50).getAttribute("contains");
+      let upTile;
+      if(document.getElementById(this.state.userPosition - 50) !== null) {
+        upTile = document.getElementById(this.state.userPosition - 50).getAttribute("contains");
+      }
       if(this.state.userPosition > 49 && upTile !== "wall") {
+        if(upTile === "treasure") { 
+          this.getTreasure();
+        }
+        if(upTile === "sword") { 
+          this.getWeapon(upTile);
+        }
         this.setState({
           userPosition: this.state.userPosition - 50
         });
@@ -66,6 +87,12 @@ class App extends Component {
     if(e.key === "ArrowDown" && document.getElementById(this.state.userPosition + 50).getAttribute("contains") !== "wall") {     
       let downTile = document.getElementById(this.state.userPosition - 50).getAttribute("contains");
       if(this.state.userPosition < 1450 && downTile !== "wall") {
+        if(downTile === "treasure") { 
+          this.getTreasure();
+        }
+        if(downTile === "sword") { 
+          this.getWeapon(downTile);
+        }
         this.setState({
           userPosition: this.state.userPosition + 50
         });
