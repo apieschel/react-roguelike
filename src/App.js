@@ -8,10 +8,11 @@ class App extends Component {
       userPosition: 67,
       userHealth: 100,
       userLevel: 0,
-      userWeapon: "Sword",
+      userWeapon: "Ax",
       wall: Math.floor(Math.random()*(1500-1+1)+1),
       sword: Math.floor(Math.random()*(1500-1+1)+1),
-      treasure: Math.floor(Math.random()*(1500-1+1)+1)
+      treasure: Math.floor(Math.random()*(1500-1+1)+1),
+      boss: Math.floor(Math.random()*(1500-1+1)+1)
 		}
 		this.constructMap = this.constructMap.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -28,9 +29,13 @@ class App extends Component {
 	
   handleKeyPress(e) {
     if(e.key === "ArrowRight") {
-      if((this.state.userPosition + 1) % 50  && document.getElementById(this.state.userPosition + 1).getAttribute("contains") !== "wall") {
-        if(document.getElementById(this.state.userPosition + 1).getAttribute("contains") === "treasure") { 
+      let rightTile = document.getElementById(this.state.userPosition + 1).getAttribute("contains");
+      if((this.state.userPosition + 1) % 50  && rightTile !== "wall") {
+        if(rightTile === "treasure") { 
           this.getTreasure();
+        }
+        if(rightTile === "sword") { 
+          this.getWeapon(rightTile);
         }
         this.setState({
           userPosition: this.state.userPosition + 1
@@ -38,8 +43,8 @@ class App extends Component {
       }
     }
     if(e.key === "ArrowLeft") {
-      console.log(document.getElementById(this.state.userPosition - 1).getAttribute("contains"));
-      if(this.state.userPosition % 50 && document.getElementById(this.state.userPosition - 1).getAttribute("contains") !== "wall") {
+      let leftTile = document.getElementById(this.state.userPosition - 1).getAttribute("contains");
+      if(this.state.userPosition % 50 && leftTile !== "wall") {
         this.setState({
           userPosition: this.state.userPosition - 1
         });
@@ -65,7 +70,14 @@ class App extends Component {
   getTreasure() {
     this.setState({
       treasure: "none",
-      health: 
+      userHealth: this.state.userHealth + 100 
+    });
+  }
+  
+  getWeapon(weapon) {
+    this.setState({
+      userWeapon: weapon,
+      sword: "none"
     });
   }
   
@@ -82,6 +94,8 @@ class App extends Component {
         grid.push(<div className="gridItem" key={i} contains="sword" id={i}>>=</div>);
       } else if(i === this.state.treasure) {
         grid.push(<div className="gridItem" key={i} contains="treasure" id={i}>$</div>);
+      } else if(i === this.state.boss) {
+        grid.push(<div className="boss" key={i} contains="boss" id={i}>B</div>);
       } else {
         grid.push(<div className="gridItem" key={i} contains="floor" id={i}></div>);
       }

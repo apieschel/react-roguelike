@@ -21,6 +21,14 @@
   color: yellow;
 }
 
+.boss {
+  height: 20px;
+  width: 20px;
+  background: white;
+  color: red;
+  text-align: center;
+}
+
 .wall {
   height: 20px;
   width: 20px;
