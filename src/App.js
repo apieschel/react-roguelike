@@ -35,7 +35,7 @@ class App extends Component {
       if(document.getElementById(this.state.userPosition - 50) !== null) {
         rightTile = document.getElementById(this.state.userPosition + 1).getAttribute("contains");
       }
-      if((this.state.userPosition + 1) % 50  && rightTile !== "wall") {
+      if((this.state.userPosition + 1) % 50  && rightTile !== "wall" && rightTile !== "boss") {
         if(rightTile === "treasure") { 
           this.getTreasure();
         }
