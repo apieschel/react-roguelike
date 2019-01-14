@@ -220,20 +220,33 @@ class App extends Component {
   }
   
   checkExperience() {
+    let banked;
     if(this.state.experienceToLevelUp === 0) {
       this.levelUp();
+    }
+    if(this.state.experienceToLevelUp < 0) {
+      banked = this.state.experienceToLevelUp * -1;
+      this.levelUp(banked);
       this.setState({
-        experienceToLevelUp: 0
+        experienceToLevelUp: this.state.experienceToLevelUp - banked
       });
     }
   }
   
-  levelUp() {
-    this.setState({
-      userLevel: this.state.userLevel + 1,
-      userHealth: this.state.userHealth + 100,
-      experienceToLevelUp: (this.state.userLevel + 1) * 50
-    });
+  levelUp(banked) {
+    if(banked) {
+      this.setState({
+        userLevel: this.state.userLevel + 1,
+        userHealth: this.state.userHealth + 100,
+        experienceToLevelUp: ((this.state.userLevel + 1) * 50) - banked
+      });
+    } else {
+      this.setState({
+        userLevel: this.state.userLevel + 1,
+        userHealth: this.state.userHealth + 100,
+        experienceToLevelUp: (this.state.userLevel + 1) * 50
+      });
+    }
   }
   
   constructMap() {
