@@ -31,6 +31,7 @@ class App extends Component {
       bossHealth: 200,
       slimeLevel: 3,
       slimeHealth: 20,
+      inventory: ["torch"],
       message: "There is danger afoot."
 		}
 		this.constructMap = this.constructMap.bind(this);
@@ -150,7 +151,7 @@ class App extends Component {
   getTreasure() {
     this.setState({
       treasure: "none",
-      message: "You picked up a glowing artifact. Your blood pulses with energy."
+      message: "You picked up a glowing artifact. Your blood pulses with a strange energy."
     });
   }
   
@@ -164,7 +165,7 @@ class App extends Component {
   }
   
   fight(enemy) {
-    let playerDamage = (Math.floor(Math.random() * this.state.baseDamage) + 1);
+    let playerDamage = (Math.floor(Math.random() * this.state.baseDamage) + 1) + this.state.userLevel;
     if(enemy === "boss") {
       let bossDamage = (Math.floor(Math.random() * this.state.bossLevel) + 1);
       if(this.state.bossHealth - playerDamage <= 0) {
@@ -230,7 +231,7 @@ class App extends Component {
     this.setState({
       userLevel: this.state.userExperience / 50,
       userHealth: (this.state.userExperience / 50) * 100,
-      experienceToLevelUp: (this.state.userExperience / 50) * 50
+      experienceToLevelUp: (((this.state.userExperience / 50) + 1) * 50) - this.state.userExperience
     });
   }
   
