@@ -8,7 +8,7 @@ class App extends Component {
     let unique;
     let i = 0;
     while(i < 5) {
-      unique =  Math.floor(Math.random()*(1500-50+1)+1);
+      unique =  Math.floor(Math.random()*(1440-60+60)+60);
       if(uniques.indexOf(unique) === -1) {
         uniques.push(unique);
         i++;
@@ -23,7 +23,8 @@ class App extends Component {
       sword: uniques[2],
       treasure: uniques[3],
       boss: uniques[4],
-      bossHealth: 10000
+      bossHealth: 100,
+      message: "There is danger afoot."
 		}
 		this.constructMap = this.constructMap.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -144,8 +145,15 @@ class App extends Component {
   
   fight() {
     if(this.state.userWeapon === "sword") {
+      if(this.state.bossHealth === 1) {
+        this.setState({
+          boss: "none",
+          message: "They will sing of your exploits for centuries."
+        });
+      }
       this.setState({
-        bossHealth: this.state.bossHealth - 1
+        bossHealth: this.state.bossHealth - 1,
+        message: "Go for the eyes."
       });
     }
   }
@@ -188,6 +196,7 @@ class App extends Component {
           <p>Level: {this.state.userLevel}</p>
           <p>Weapon: {this.state.userWeapon}</p>
           <p>Boss Health: {this.state.bossHealth}</p>
+          <p>{this.state.message}</p>
         </div>
       </div>
     );

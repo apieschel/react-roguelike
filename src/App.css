@@ -1,3 +1,6 @@
+body {
+  background: black;
+}
 .container {
     display: flex;
     justify-content: center;
@@ -45,4 +48,5 @@
 
 .stats {
   margin-left: 225px;
+  color: white;
 }
