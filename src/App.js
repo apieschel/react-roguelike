@@ -36,7 +36,6 @@ class App extends Component {
     this.fight = this.fight.bind(this);
     this.getExperience = this.getExperience.bind(this);
     this.checkExperience = this.checkExperience.bind(this);
-    this.levelUp = this.levelUp.bind(this);
 	}
   
   componentDidMount() {
@@ -220,33 +219,13 @@ class App extends Component {
   }
   
   checkExperience() {
-    let banked;
-    if(this.state.experienceToLevelUp === 0) {
-      this.levelUp();
-    }
-    if(this.state.experienceToLevelUp < 0) {
-      banked = this.state.experienceToLevelUp * -1;
-      this.levelUp(banked);
-      this.setState({
-        experienceToLevelUp: this.state.experienceToLevelUp - banked
-      });
-    }
-  }
-  
-  levelUp(banked) {
-    if(banked) {
-      this.setState({
-        userLevel: this.state.userLevel + 1,
-        userHealth: this.state.userHealth + 100,
-        experienceToLevelUp: ((this.state.userLevel + 1) * 50) - banked
-      });
-    } else {
-      this.setState({
-        userLevel: this.state.userLevel + 1,
-        userHealth: this.state.userHealth + 100,
-        experienceToLevelUp: (this.state.userLevel + 1) * 50
-      });
-    }
+      if(this.state.userExperience !== 0) {
+        this.setState({
+          experienceToLevelUp: this.state.userLevel * 50,
+          userLevel: this.state.userExperience / 50,
+          userHealth: this.state.userLevel * 100
+        });
+      }
   }
   
   constructMap() {
@@ -287,7 +266,6 @@ class App extends Component {
         <div className="stats">
           <p>Health: {this.state.userHealth}</p>
           <p>Level: {this.state.userLevel}</p>
-          <p>Experience: {this.state.userExperience}</p>
           <p>Experience to Next Level: {this.state.experienceToLevelUp}</p>
           <p>Weapon: {this.state.userWeapon}</p>
           <p>Boss Health: {this.state.bossHealth}</p>
