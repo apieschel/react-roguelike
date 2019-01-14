@@ -84,8 +84,11 @@ class App extends Component {
       }
     }
     
-    if(e.key === "ArrowDown" && document.getElementById(this.state.userPosition + 50).getAttribute("contains") !== "wall") {     
-      let downTile = document.getElementById(this.state.userPosition - 50).getAttribute("contains");
+    if(e.key === "ArrowDown" && document.getElementById(this.state.userPosition + 50).getAttribute("contains") !== "wall") { 
+      let downTile;
+      if(document.getElementById(this.state.userPosition - 50) !== null) {
+        downTile = document.getElementById(this.state.userPosition - 50).getAttribute("contains");
+      }
       if(this.state.userPosition < 1450 && downTile !== "wall") {
         if(downTile === "treasure") { 
           this.getTreasure();
