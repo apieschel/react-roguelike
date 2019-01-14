@@ -5,10 +5,10 @@ class App extends Component {
   constructor(props) {
 		super(props);
 		this.state = {
-      userPosition: 67,
+      userPosition: Math.floor(Math.random()*(1500-1+1)+1),
       userHealth: 100,
       userLevel: 0,
-      userWeapon: "Ax",
+      userWeapon: "fist",
       wall: Math.floor(Math.random()*(1500-1+1)+1),
       sword: Math.floor(Math.random()*(1500-1+1)+1),
       treasure: Math.floor(Math.random()*(1500-1+1)+1),
@@ -18,6 +18,7 @@ class App extends Component {
 		this.constructMap = this.constructMap.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.getTreasure = this.getTreasure.bind(this);
+    this.fight = this.fight.bind(this);
 	}
   
   componentDidMount() {
@@ -46,6 +47,9 @@ class App extends Component {
           userPosition: this.state.userPosition + 1
         });
       }
+      if(rightTile === "boss") {
+        this.fight();
+      }
     }
     
     if(e.key === "ArrowLeft") {
@@ -53,7 +57,7 @@ class App extends Component {
       if(document.getElementById(this.state.userPosition - 50) !== null) {
         leftTile = document.getElementById(this.state.userPosition - 1).getAttribute("contains");
       }
-      if(this.state.userPosition % 50 && leftTile !== "wall") {
+      if(this.state.userPosition % 50 && leftTile !== "wall" && leftTile !== "boss") {
         if(leftTile === "treasure") { 
           this.getTreasure();
         }
@@ -64,6 +68,9 @@ class App extends Component {
           userPosition: this.state.userPosition - 1
         });
       }
+      if(leftTile === "boss") {
+         this.fight();
+      }
     }
     
     if(e.key === "ArrowUp") {
@@ -71,7 +78,7 @@ class App extends Component {
       if(document.getElementById(this.state.userPosition - 50) !== null) {
         upTile = document.getElementById(this.state.userPosition - 50).getAttribute("contains");
       }
-      if(this.state.userPosition > 49 && upTile !== "wall") {
+      if(this.state.userPosition > 49 && upTile !== "wall" && upTile !== "boss") {
         if(upTile === "treasure") { 
           this.getTreasure();
         }
@@ -82,14 +89,17 @@ class App extends Component {
           userPosition: this.state.userPosition - 50
         });
       }
+      if(upTile === "boss") {
+        this.fight();
+      }
     }
     
-    if(e.key === "ArrowDown" && document.getElementById(this.state.userPosition + 50).getAttribute("contains") !== "wall") { 
+    if(e.key === "ArrowDown") { 
       let downTile;
-      if(document.getElementById(this.state.userPosition - 50) !== null) {
-        downTile = document.getElementById(this.state.userPosition - 50).getAttribute("contains");
+      if(document.getElementById(this.state.userPosition + 50) !== null) {
+        downTile = document.getElementById(this.state.userPosition + 50).getAttribute("contains");
       }
-      if(this.state.userPosition < 1450 && downTile !== "wall") {
+      if(this.state.userPosition < 1450 && downTile !== "wall" && downTile !== "boss") {
         if(downTile === "treasure") { 
           this.getTreasure();
         }
@@ -99,6 +109,9 @@ class App extends Component {
         this.setState({
           userPosition: this.state.userPosition + 50
         });
+      }
+      if(downTile === "boss") {
+         this.fight();
       }
     }
     
@@ -117,6 +130,14 @@ class App extends Component {
       userWeapon: weapon,
       sword: "none"
     });
+  }
+  
+  fight() {
+    if(this.state.weapon === "sword") {
+      this.setState({
+        bossHealth: this.state.bossHealth - 1
+      });
+    }
   }
   
   constructMap() {
