@@ -49,7 +49,7 @@ class App extends Component {
       if(document.getElementById(this.state.userPosition + 1) !== null) {
         rightTile = document.getElementById(this.state.userPosition + 1).getAttribute("contains");
       }
-      if((this.state.userPosition + 1) % 50  && rightTile !== "wall" && rightTile !== "boss") {
+      if((this.state.userPosition + 1) % 50  && rightTile !== "wall" && rightTile !== "boss" && rightTile !== "slime") {
         if(rightTile === "treasure") { 
           this.getTreasure();
         }
@@ -70,7 +70,7 @@ class App extends Component {
       if(document.getElementById(this.state.userPosition - 50) !== null) {
         leftTile = document.getElementById(this.state.userPosition - 1).getAttribute("contains");
       }
-      if(this.state.userPosition % 50 && leftTile !== "wall" && leftTile !== "boss") {
+      if(this.state.userPosition % 50 && leftTile !== "wall" && leftTile !== "boss" && leftTile !== "slime") {
         if(leftTile === "treasure") { 
           this.getTreasure();
         }
@@ -91,7 +91,7 @@ class App extends Component {
       if(document.getElementById(this.state.userPosition - 50) !== null) {
         upTile = document.getElementById(this.state.userPosition - 50).getAttribute("contains");
       }
-      if(this.state.userPosition > 49 && upTile !== "wall" && upTile !== "boss") {
+      if(this.state.userPosition > 49 && upTile !== "wall" && upTile !== "boss" && upTile !== "slime") {
         if(upTile === "treasure") { 
           this.getTreasure();
         }
@@ -112,7 +112,7 @@ class App extends Component {
       if(document.getElementById(this.state.userPosition + 50) !== null) {
         downTile = document.getElementById(this.state.userPosition + 50).getAttribute("contains");
       }
-      if(this.state.userPosition < 1450 && downTile !== "wall" && downTile !== "boss") {
+      if(this.state.userPosition < 1450 && downTile !== "wall" && downTile !== "boss" && downTile !== "slime") {
         if(downTile === "treasure") { 
           this.getTreasure();
         }
@@ -172,12 +172,14 @@ class App extends Component {
           this.setState({
             slime: "none",
             message: "You slaughtered a disgusting slime. You feel more confident in your abilities.",
-            bossHealth: this.state.slimeHealth - 1
+            slimeHealth: this.state.slimeHealth - 1,
+            userLevel: this.state.userLevel + 1
           });
         } else {
           this.setState({
-            slimeHealth: this.state.bossHealth - 1,
-            message: "Go for the tentacles."
+            slimeHealth: this.state.slimeHealth - 1,
+            message: "Go for the tentacles.",
+            userHealth: this.state.userHealth - 1
           });
         }
       }
@@ -224,6 +226,7 @@ class App extends Component {
           <p>Level: {this.state.userLevel}</p>
           <p>Weapon: {this.state.userWeapon}</p>
           <p>Boss Health: {this.state.bossHealth}</p>
+          <p>Slime Health: {this.state.slimeHealth}</p>
           <p className="message">{this.state.message}</p>
         </div>
       </div>
