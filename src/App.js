@@ -204,7 +204,9 @@ class App extends Component {
         } else {
           if(this.state.userHealth - slimeDamage <= 0) {
             this.setState({
-              
+              message: "You are now dead, but your shame will live on.",
+              userHealth: 0,
+              userPosition: "none"
             });   
           } else {
             this.setState({
