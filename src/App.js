@@ -18,7 +18,8 @@ class App extends Component {
       userPosition: uniques[0],
       userHealth: 100,
       userExperience: 0,
-      userLevel: 0,
+      experienceToLevelUp: 50,
+      userLevel: 1,
       userWeapon: "fist",
       wall: uniques[1],
       sword: uniques[2],
@@ -56,6 +57,7 @@ class App extends Component {
         }
         if(rightTile === "sword") { 
           this.getWeapon(rightTile);
+          
         }
         this.setState({
           userPosition: this.state.userPosition + 1
@@ -74,9 +76,11 @@ class App extends Component {
       if(this.state.userPosition % 50 && leftTile !== "wall" && leftTile !== "boss" && leftTile !== "slime") {
         if(leftTile === "treasure") { 
           this.getTreasure();
+          this.getExperience(leftTile);
         }
         if(leftTile === "sword") { 
           this.getWeapon(leftTile);
+          this.getExperience(leftTile);
         }
         this.setState({
           userPosition: this.state.userPosition - 1
@@ -95,9 +99,11 @@ class App extends Component {
       if(this.state.userPosition > 49 && upTile !== "wall" && upTile !== "boss" && upTile !== "slime") {
         if(upTile === "treasure") { 
           this.getTreasure();
+          this.getExperience(upTile);
         }
         if(upTile === "sword") { 
           this.getWeapon(upTile);
+          this.getExperience(upTile);
         }
         this.setState({
           userPosition: this.state.userPosition - 50
@@ -116,9 +122,11 @@ class App extends Component {
       if(this.state.userPosition < 1450 && downTile !== "wall" && downTile !== "boss" && downTile !== "slime") {
         if(downTile === "treasure") { 
           this.getTreasure();
+          this.getExperience(downTile);
         }
         if(downTile === "sword") { 
           this.getWeapon(downTile);
+          this.getExperience(downTile);
         }
         this.setState({
           userPosition: this.state.userPosition + 50
@@ -136,7 +144,6 @@ class App extends Component {
     this.setState({
       treasure: "none",
       userHealth: this.state.userHealth + 100,
-      userLevel: this.state.userLevel + 1,
       message: "You picked up a glowing artifact. Your blood pulses with energy."
     });
   }
@@ -145,7 +152,6 @@ class App extends Component {
     this.setState({
       userWeapon: weapon,
       sword: "none",
-      userLevel: this.state.userLevel + 1,
       message: "You picked up the ancient sword. There is an image of teeth engraved on its hilt."
     });
   }
@@ -159,6 +165,7 @@ class App extends Component {
             message: "They will sing of your exploits for centuries.",
             bossHealth: this.state.bossHealth - 1
           });
+          this.getExperience("boss");
         } else {
           this.setState({
             bossHealth: this.state.bossHealth - 1,
@@ -176,6 +183,7 @@ class App extends Component {
             slimeHealth: this.state.slimeHealth - 1,
             userLevel: this.state.userLevel + 1
           });
+          this.getExperience("slime");
         } else {
           this.setState({
             slimeHealth: this.state.slimeHealth - 1,
@@ -189,20 +197,32 @@ class App extends Component {
   
   getExperience(event) {
     if(event === "slime") {
-      this.userExperience = this.state.userExperience + 100
+      this.setState({
+        userExperience: this.state.userExperience + 100
+      });
     }
     if(event === "boss") {
-      this.userExperience = this.state.userExperience + 1000
+      this.setState({
+        userExperience: this.state.userExperience + 1000
+      });
     }
     if(event === "treasure") {
-      this.userExperience = this.state.userExperience + 50
+      this.setState({
+        userExperience: this.state.userExperience + 50
+      });
     }
     if(event === "sword") {
-      this.userExperience = this.state.userExperience + 50
+      this.setState({
+        userExperience: this.state.userExperience + 50
+      });
     }
   }
   
-  levelUp() {}
+  levelUp() {
+    this.setState({
+      userLevel: this.state.userLevel + 1
+    });
+  }
   
   constructMap() {
     let grid = [];
