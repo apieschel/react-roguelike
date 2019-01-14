@@ -34,10 +34,14 @@ class App extends Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.getTreasure = this.getTreasure.bind(this);
     this.fight = this.fight.bind(this);
+    this.getExperience = this.getExperience.bind(this);
+    this.checkExperience = this.checkExperience.bind(this);
+    this.levelUp = this.levelUp.bind(this);
 	}
   
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyPress);
+    this.checkExperience();
   }
 	
   componentWillUnmount() {
@@ -219,9 +223,14 @@ class App extends Component {
     }
   }
   
+  checkExperience() {
+  
+  }
+  
   levelUp() {
     this.setState({
-      userLevel: this.state.userLevel + 1
+      userLevel: this.state.userLevel + 1,
+      userHealth: this.state.userHealth + 100
     });
   }
   
@@ -263,11 +272,11 @@ class App extends Component {
         <div className="stats">
           <p>Health: {this.state.userHealth}</p>
           <p>Level: {this.state.userLevel}</p>
+          <p>Experience: {this.state.userExperience}</p>
+          <p>Experience to Next Level: {this.state.experienceToLevelUp}</p>
           <p>Weapon: {this.state.userWeapon}</p>
           <p>Boss Health: {this.state.bossHealth}</p>
           <p>Slime Health: {this.state.slimeHealth}</p>
-          <p>Experience: {this.state.userExperience}</p>
-          <p>Experience to Next Level: {this.state.experienceToLevelUp}</p>
           <p className="message">{this.state.message}</p>
         </div>
       </div>
