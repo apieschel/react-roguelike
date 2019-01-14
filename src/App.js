@@ -150,7 +150,6 @@ class App extends Component {
   getTreasure() {
     this.setState({
       treasure: "none",
-      userHealth: this.state.userHealth + 100,
       message: "You picked up a glowing artifact. Your blood pulses with energy."
     });
   }
@@ -165,22 +164,26 @@ class App extends Component {
   }
   
   fight(enemy) {
+    let playerDamage = (Math.floor(Math.random() * this.state.baseDamage) + 1);
     if(enemy === "boss") {
-      if(this.state.bossHealth <= 0) {
+      let bossDamage = (Math.floor(Math.random() * this.state.bossLevel) + 1);
+      if(this.state.bossHealth - playerDamage <= 0) {
         this.setState({
           boss: "none",
-          message: "They will sing of your exploits for centuries."
+          message: "They will sing of your exploits for centuries.",
+          bossHealth: 0
         });
         this.getExperience("boss");
       } else {
         this.setState({
-          bossHealth: this.state.bossHealth - (Math.floor(Math.random() * this.state.baseDamage) + 1),
+          bossHealth: this.state.bossHealth - playerDamage,
           message: "Go for the eyes.",
-          userHealth: this.state.userHealth - (Math.floor(Math.random() * this.state.bossLevel) + 1)
+          userHealth: this.state.userHealth - bossDamage
         });
       }
     } else {
-        if((this.state.slimeHealth - (Math.floor(Math.random() * this.state.baseDamage) + 1)) <= 0) {
+        let slimeDamage = (Math.floor(Math.random() * this.state.slimeLevel) + 1);
+        if(this.state.slimeHealth - playerDamage <= 0) {
           this.setState({
             slime: "none",
             message: "You slaughtered a disgusting slime. You feel more confident in your abilities.",
@@ -189,9 +192,9 @@ class App extends Component {
           this.getExperience("slime");
         } else {
           this.setState({
-            slimeHealth: this.state.slimeHealth - (Math.floor(Math.random() * this.state.baseDamage) + 1),
+            slimeHealth: this.state.slimeHealth - playerDamage,
             message: "Go for the tentacles.",
-            userHealth: this.state.userHealth - (Math.floor(Math.random() * this.state.slimeLevel) + 1)
+            userHealth: this.state.userHealth - slimeDamage
           });
         }
     }
@@ -269,6 +272,7 @@ class App extends Component {
         <div className="stats">
           <p>Health: {this.state.userHealth}</p>
           <p>Level: {this.state.userLevel}</p>
+          <p>Experience: {this.state.userExperience}</p>
           <p>Experience to Next Level: {this.state.experienceToLevelUp}</p>
           <p>Weapon: {this.state.userWeapon}</p>
           <p>Boss Health: {this.state.bossHealth}</p>
