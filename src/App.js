@@ -41,7 +41,6 @@ class App extends Component {
   
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyPress);
-    this.checkExperience();
   }
 	
   componentWillUnmount() {
@@ -142,7 +141,7 @@ class App extends Component {
       }
     }
     
-    //console.log(this.state.userPosition);
+    this.checkExperience();
   }
   
   getTreasure() {
@@ -201,36 +200,39 @@ class App extends Component {
   }
   
   getExperience(event) {
+    let e;
     if(event === "slime") {
-      this.setState({
-        userExperience: this.state.userExperience + 100
-      });
+      e = 100;
     }
     if(event === "boss") {
-      this.setState({
-        userExperience: this.state.userExperience + 1000
-      });
+      e = 1000;
     }
     if(event === "treasure") {
-      this.setState({
-        userExperience: this.state.userExperience + 50
-      });
+      e = 50;
     }
     if(event === "sword") {
-      this.setState({
-        userExperience: this.state.userExperience + 50
-      });
+      e = 50;
     }
+    this.setState({
+        userExperience: this.state.userExperience + e,
+        experienceToLevelUp: this.state.experienceToLevelUp - e
+    });
   }
   
   checkExperience() {
-  
+    if(this.state.experienceToLevelUp === 0) {
+      this.levelUp();
+      this.setState({
+        experienceToLevelUp: 0
+      });
+    }
   }
   
   levelUp() {
     this.setState({
       userLevel: this.state.userLevel + 1,
-      userHealth: this.state.userHealth + 100
+      userHealth: this.state.userHealth + 100,
+      experienceToLevelUp: (this.state.userLevel + 1) * 50
     });
   }
   
