@@ -74,4 +74,7 @@ p {
 
 .light {
   background: red;
+  height: 20px;
+  width: 20px;
+  color: yellow;
 }

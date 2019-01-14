@@ -15,6 +15,7 @@ class App extends Component {
       }
     }
 		this.state = {
+      uniques: uniques,
       userPosition: uniques[0],
       userHealth: 10,
       userExperience: 0,
@@ -177,11 +178,19 @@ class App extends Component {
         });
         this.getExperience("boss");
       } else {
-        this.setState({
-          bossHealth: this.state.bossHealth - playerDamage,
-          message: "Go for the eyes.",
-          userHealth: this.state.userHealth - bossDamage
-        });
+        if(this.state.userHealth - bossDamage <= 0) {
+          this.setState({
+            message: "You are now dead, but your shame will live on.",
+            userPosition: "none",
+            userHealth: 0
+          });
+        } else {
+          this.setState({
+            bossHealth: this.state.bossHealth - playerDamage,
+            message: "Go for the eyes.",
+            userHealth: this.state.userHealth - bossDamage
+          });
+        }
       }
     } else {
         let slimeDamage = (Math.floor(Math.random() * this.state.slimeLevel) + 1);
@@ -193,11 +202,17 @@ class App extends Component {
           });
           this.getExperience("slime");
         } else {
-          this.setState({
-            slimeHealth: this.state.slimeHealth - playerDamage,
-            message: "Go for the tentacles.",
-            userHealth: this.state.userHealth - slimeDamage
-          });
+          if(this.state.userHealth - slimeDamage <= 0) {
+            this.setState({
+              
+            });   
+          } else {
+            this.setState({
+              slimeHealth: this.state.slimeHealth - playerDamage,
+              message: "Go for the tentacles.",
+              userHealth: this.state.userHealth - slimeDamage
+            });
+          }
         }
     }
   }
@@ -243,14 +258,14 @@ class App extends Component {
 	  for(let i = 0; i < 1500; i++) {
       if(i === j) {
         grid.push(<div className="user" key={i} contains="user" id={i}>(:</div>);
-      } else if(i === j - 1) {
-        grid.push(<div className="light" key={i} contains="floor" id={i}>(:</div>);
-      } else if(i === j + 1) {
-        grid.push(<div className="light" key={i} contains="floor" id={i}>(:</div>);
-      } else if(i === j - 50) {
-        grid.push(<div className="light" key={i} contains="floor" id={i}>(:</div>);
-      } else if(i === j + 50) {
-        grid.push(<div className="light" key={i} contains="floor" id={i}>(:</div>);
+      } else if(i === j - 1 && this.state.uniques.indexOf(i) === -1) {
+        grid.push(<div className="light" key={i} contains="floor" id={i}></div>);
+      } else if(i === j + 1 && this.state.uniques.indexOf(i) === -1) {
+        grid.push(<div className="light" key={i} contains="floor" id={i}></div>);
+      } else if(i === j - 50 && this.state.uniques.indexOf(i) === -1) {
+        grid.push(<div className="light" key={i} contains="floor" id={i}></div>);
+      } else if(i === j + 50 && this.state.uniques.indexOf(i) === -1) {
+        grid.push(<div className="light" key={i} contains="floor" id={i}></div>);
       } else if(i === this.state.wall) {
         grid.push(<div className="wall" key={i} contains="wall" id={i}></div>);
       } else if(i === this.state.sword) {
